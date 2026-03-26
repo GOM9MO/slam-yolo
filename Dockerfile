@@ -63,6 +63,9 @@ RUN apt-get update \
     ros-jazzy-navigation2 \
     ros-jazzy-nav2-bringup \
     ros-jazzy-realsense2-camera \
+    ros-jazzy-rviz2 \
+    ros-jazzy-rviz-common \
+    ros-jazzy-rviz-default-plugins \
     libssl-dev \
     libusb-1.0-0-dev \
     libudev-dev \
@@ -115,7 +118,12 @@ ENV LD_LIBRARY_PATH=/usr/local/lib
 
 RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
 
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 USER $USERNAME
+ENTRYPOINT ["/entrypoint.sh"]
 
 SHELL ["/bin/bash", "-c"]
 
