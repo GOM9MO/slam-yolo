@@ -82,10 +82,11 @@ RUN apt-get update \
     udev \
     usbutils \
     python3.12-full \
+    python3-colcon-common-extensions \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone https://github.com/IntelRealSense/librealsense.git /opt/librealsense \
+RUN git clone --depth 1 https://github.com/IntelRealSense/librealsense.git /opt/librealsense \
     && cd /opt/librealsense \
     && git checkout v2.57.6 \
     && mkdir -p build && cd build \
@@ -100,8 +101,7 @@ RUN git clone https://github.com/IntelRealSense/librealsense.git /opt/librealsen
     && make install \
     && ldconfig \
     && find . -maxdepth 2 -name "pyrealsense2*.so" -exec cp {} /opt/pyrealsense2.so \; \
-    && ls -la /opt/pyrealsense2.so \
-    && rm -rf /opt/librealsense
+    && ls -la /opt/pyrealsense2.so
 
 RUN python3.12 -m venv /venv \
     && cp /opt/pyrealsense2.so /venv/lib/python3.12/site-packages/pyrealsense2.so
