@@ -86,7 +86,7 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN git clone --depth 1 https://github.com/IntelRealSense/librealsense.git /opt/librealsense \
+RUN git clone https://github.com/IntelRealSense/librealsense.git /opt/librealsense \
     && cd /opt/librealsense \
     && git checkout v2.57.6 \
     && mkdir -p build && cd build \
@@ -109,6 +109,7 @@ RUN python3.12 -m venv /venv \
 ENV PATH="/venv/bin:$PATH"
 ENV LD_LIBRARY_PATH=/usr/local/lib
 
+RUN mkdir /opt/ros_ws
 
 # env begin
 
