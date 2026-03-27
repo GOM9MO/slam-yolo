@@ -51,9 +51,7 @@ RUN apt-get update \
     && rosdep init \
     && rosdep update
 
-# 设置环境变量
-ENV ROS_DISTRO=jazzy
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /home/$USERNAME/.bashrc
+RUN echo "source /opt/ros/jazzy/setup.bash" >> /root/.bashrc
 
 RUN apt-get update \
     && apt install -y \
@@ -88,7 +86,7 @@ RUN apt-get update \
 
 RUN git clone https://github.com/IntelRealSense/librealsense.git /opt/librealsense \
     && cd /opt/librealsense \
-    && git checkout v2.57.6 \
+    && git checkout v2.56.4 \
     && mkdir -p build && cd build \
     && cmake ../ \
         -DCMAKE_BUILD_TYPE=Release \
@@ -115,16 +113,6 @@ RUN mkdir /opt/ros_ws
 
 # env end
 
-
-
-RUN chown -R $USERNAME:$USERNAME /home/$USERNAME
-
-
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-USER $USERNAME
-ENTRYPOINT ["/entrypoint.sh"]
 
 SHELL ["/bin/bash", "-c"]
 
